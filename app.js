@@ -9,18 +9,12 @@ app.use(express.static(__dirname));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-var Message = mongoose.model("Message", {
+var Message = mongoose.model("messages", {
   name: String,
   message: String
 });
 
 var dbUrl = "mongodb://127.0.0.1:27017/divided-nations";
-
-app.get("/messages", (req, res) => {
-  Message.find({}, (err, messages) => {
-    res.send(messages);
-  });
-});
 
 app.get("/messages", (req, res) => {
   Message.find({}, (err, messages) => {
