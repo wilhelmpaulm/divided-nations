@@ -5,6 +5,10 @@ class SocketHandler {
 
   setIo(io) {
     this.io = io;
+
+    this.io.on("connection", () => {
+      console.log("a user is connected");
+    });
   }
 }
 
