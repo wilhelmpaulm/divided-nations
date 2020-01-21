@@ -16,6 +16,18 @@ var Message = mongoose.model("messages", {
 
 var dbUrl = "mongodb://127.0.0.1:27017/divided-nations";
 
+io.on("connection", () => {
+  console.log("a user is connected");
+});
+
+mongoose.connect(dbUrl, { useMongoClient: true }, err => {
+  console.log("mongodb connected", err);
+});
+
+var server = http.listen(3000, () => {
+  console.log("server is running on port", server.address().port);
+});
+
 app.get("/messages", (req, res) => {
   Message.find({}, (err, messages) => {
     res.send(messages);
@@ -29,16 +41,4 @@ app.post("/messages", (req, res) => {
     io.emit("message", req.body);
     res.sendStatus(200);
   });
-});
-
-io.on("connection", () => {
-  console.log("a user is connected");
-});
-
-mongoose.connect(dbUrl, { useMongoClient: true }, err => {
-  console.log("mongodb connected", err);
-});
-
-var server = http.listen(3001, () => {
-  console.log("server is running on port", server.address().port);
 });
