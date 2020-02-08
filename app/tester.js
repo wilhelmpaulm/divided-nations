@@ -17,7 +17,9 @@ const defaultPlayer = () => ({
   deck: [],
   hand: [],
   graveyard: [],
-  locked: true
+  target: [],
+  locked: true,
+  dead: true
 });
 
 const defaultGame = () => ({
@@ -28,6 +30,14 @@ const defaultGame = () => ({
   graveyard: [],
   turns: [],
   locked: false
+});
+
+const defaultAction = () => ({
+  cardId: undefined,
+  fromPlayerId: undefined,
+  toPlayerId: undefined,
+  fromStackId: undefined,
+  toStackId: undefined
 });
 
 console.log(defaultCard().play());
