@@ -1,45 +1,77 @@
 const uuid = require("uuid");
 
-const defaultCard = () => ({
+const defaultCard = {
   id: uuid.v4(),
-  name: "",
-  details: "",
-  icon: "",
-  blockable: false,
-  play: function() {
+  name: undefined,
+  details: undefined,
+  icon,
+  blockable,
+  play: function () {
+    // override this function
+    console.log(`card ${this.id} has been played`);
+  }
+};
+
+const createCard = ({ name }) => {
+
+  return { ...card, name, details }
+}
+
+const createCard = ({ name, details = undefined, icon = undefined, blockable = false }) => ({
+  id: uuid.v4(),
+  name: name || undefined,
+  details,
+  icon,
+  blockable,
+  play: function () {
     // override this function
     console.log(`card ${this.id} has been played`);
   }
 });
 
-const defaultPlayer = () => ({
+const createPlayer = ({ deck, hand, graveyard }) => ({
   id: uuid.v4(),
   deck: [],
   hand: [],
   graveyard: [],
   target: [],
   locked: true,
-  dead: true
+  dead: false
 });
 
-const defaultGame = () => ({
+const createGame = ({ hostPlayerId, players, deck, graveyard }) => ({
+  self: this,
   id: uuid.v4(),
-  players: [],
-  deck: [],
-  hand: [],
-  graveyard: [],
+  hostPlayerId,
+  players: players || [],
+  deck: deck || [],
+  graveyard: graveyard || [],
   turns: [],
-  locked: false
+  locked: false,
+  addPlayer: () => {
+    console.log(this.)
+  }
 });
 
-const defaultAction = () => ({
-  cardId: undefined,
-  fromPlayerId: undefined,
-  toPlayerId: undefined,
-  fromStackId: undefined,
-  toStackId: undefined
+const createTurn = ({ playerId, message, cardId }) => ({
+  playerId,
+  message: message || undefined,
+  cardId: cardId || undefined,
+  action: action || undefined,
 });
 
-console.log(defaultCard().play());
-console.log(defaultCard());
-console.log(defaultCard());
+// we're using maps to make it easier to fetch details
+// create lobby to host games
+const games = {};
+// create players list
+const players = {};
+// accounts of 3 players are created
+const player1 = createPlayer({});
+const player2 = createPlayer({});
+const player3 = createPlayer({});
+
+const game = createGame({ hostPlayerId: player1.id });
+game.addPlayer();
+
+
+// player creates a new game
