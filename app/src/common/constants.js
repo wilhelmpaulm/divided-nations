@@ -1,0 +1,19 @@
+export const cardNames = {
+  DRAW: "DRAW",
+  BOMB: "BOMB",
+  DIFFUSE: "DIFFUSE",
+  SKIP: "SKIP",
+  ATTACK: "ATTACK",
+  PEEK: "PEEK",
+  BLOCK: "BLOCK",
+  FALSE: "FALSE",
+  TAKE: "TAKE"
+};
+
+export const eventNames = {
+  ON_CARD_ADD: "ON_CARD_ADD",
+  ON_CARD_PLAY: "ON_CARD_PLAY",
+  ON_CARD_DISCARD: "ON_CARD_DISCARD",
+  ON_PLAYER_ADD: "ON_PLAYER_ADD",
+  ON_PLAYER_DEATH: "ON_PLAYER_DEATH"
+};

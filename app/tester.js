@@ -1,6 +1,5 @@
 const uuid = require("uuid");
-const faker = require("faker");
-const EventEmmiter = require("events");
+const EventEmitter = require("events");
 
 const cardNames = {
   DRAW: "DRAW",
@@ -21,13 +20,6 @@ const eventNames = {
   ON_PLAYER_ADD: "ON_PLAYER_ADD",
   ON_PLAYER_DEATH: "ON_PLAYER_DEATH"
 };
-
-const emitter = new EventEmmiter();
-
-emitter.on(eventNames.ON_CARD_ADD, options => {
-  console.log("options", options);
-  return true;
-});
 
 const baseCard = {
   id: undefined,
@@ -104,6 +96,7 @@ const baseGame = {
     shuffleStack(this.deck);
     // unlock the first player
     addCard(this.players[0].deck, cardNames.DRAW);
+    // TODO: add event emitter on ad card for player
   }
 };
 
@@ -182,8 +175,6 @@ const getCardDetails = name => {
 
 const createPlayer = (properties = {}) => {
   properties.id = uuid.v4();
-  properties.icon = faker.image.animals(160, 160);
-  properties.name = faker.name.firstName() + " " + faker.name.lastName();
   properties.hand = [];
   properties.deck = [];
   properties.graveyard = [];
@@ -198,7 +189,7 @@ const createPlayer = (properties = {}) => {
   return { ...basePlayer, ...properties };
 };
 
-const createGame = (properties = {}) => {
+const createGame = (properties = {}, emitter = undefined) => {
   properties.id = uuid.v4();
   properties.players = [];
   properties.deck = [];
@@ -213,9 +204,9 @@ const worldGames = [];
 // create players list
 const worldPlayers = [];
 // accounts of 3 players are created
-const player1 = createPlayer({});
-const player2 = createPlayer({});
-const player3 = createPlayer({});
+const player1 = createPlayer({ name: "a" });
+const player2 = createPlayer({ name: "b" });
+const player3 = createPlayer({ name: "c" });
 
 const game = createGame({ hostPlayerId: player1.id });
 // add players to the created game
@@ -223,15 +214,7 @@ game.addPlayer(player1);
 game.addPlayer(player2);
 game.addPlayer(player3);
 game.startGame();
-player1.play(7);
-
-// console.table(player1.deck);
-// console.log(game.deck);
-// console.log("player.deck.length", player1.deck.length);
-
-// const card = createCardByName(cardNames.DRAW);
-// card.play();
-// player creates a new game
-// console.log("player2", JSON.stringify(player2.deck));
-// console.log("player2", JSON.stringify(player1.deck));
-// console.log("player2", JSON.stringify(player3.deck));
+// player1.play(7);
+console.log("player.locked", player1.locked);
+console.log("player.locked", player2.locked);
+console.log("player.locked", player3.locked);
