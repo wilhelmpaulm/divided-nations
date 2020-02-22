@@ -62,7 +62,7 @@ class CommandStack {
     this.emitter.on('done', (com) => {
       this.stack = this.stack.filter(x => x != com);
       this.finished.push(com);
-      console.log('number of finished commands: ' + commandStack.finished.length)
+      console.log('discarded command' + com.num)
     });
   }
 
