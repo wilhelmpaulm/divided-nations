@@ -2,22 +2,29 @@ const EventEmitter = require('events')
 const emitter = new EventEmitter();
 
 class Command {
-  constructor () {
+  constructor (num) {
     this.execution = undefined;
+    this.emitter = undefined;
     this.previous = undefined;
+    this.num = num;
   }
 
   setPrevious (command) {
     this.previous = command;
   }
 
+  setEmmiter (emitter) {
+    this.emitter = emitter;
+  }
+
   execute () {
     this.execution = setTimeout(
       () => {
-        console.log('command executed');
+        console.log(`Command executed ${this.num}`);
         if (this.previous) this.previous.execute();
+        this.emitter.emit('done', this);
       },
-      5000
+      1000
     );
   }
 
@@ -26,15 +33,44 @@ class Command {
   }
 }
 
-class CommandStack {
-  constructor () {
-    this.stack = [];
+
+class CommandCancel extends Command {
+  constructor (num) {
+    super(num);
   }
+
+  execute () {
+    this.execution = setTimeout(
+      () => {
+        console.log(`CommandCancel executed ${this.num}`);
+        this.emitter.emit('done', this.previous);
+        if (this.previous.previous) this.previous = this.previous.previous;
+        if (this.previous) this.previous.execute();
+        this.emitter.emit('done', this);
+      },
+      1000
+    );
+  }
+
+}
+
+class CommandStack {
+  constructor (emitter) {
+    this.stack = [];
+    this.emitter = emitter;
+    this.emitter.on('done', (com) => {
+      this.stack = this.stack.filter(x => x != com);
+    });
+  }
+
+
 
   addCommand (com) {
     this.pauseExecutions();
+    com.setEmmiter(this.emitter);
     if (this.stack.length) com.setPrevious(this.stack[this.stack.length - 1]);
     this.stack.push(com);
+    console.log('total commands :', this.stack.length)
     this.startLastExecution();
   }
 
@@ -55,8 +91,14 @@ emitter.on('ADD_CARD', (data) => {
 });
 
 
-const commandStack = new CommandStack();
-commandStack.addCommand(new Command());
-commandStack.addCommand(new Command());
-commandStack.addCommand(new Command());
+const commandStack = new CommandStack(emitter);
+commandStack.addCommand(new Command('first'));
+commandStack.addCommand(new Command('second'));
+commandStack.addCommand(new Command('third'));
+commandStack.addCommand(new Command('fourth'));
+commandStack.addCommand(new Command('fifth'));
+commandStack.addCommand(new CommandCancel('sixth'));
+commandStack.addCommand(new CommandCancel('seventh'));
+commandStack.addCommand(new CommandCancel('eight'));
+commandStack.addCommand(new CommandCancel('ninth'));
 console.log(commandStack.stack.length)
