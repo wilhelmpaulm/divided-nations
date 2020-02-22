@@ -101,4 +101,5 @@ commandStack.addCommand(new CommandCancel('sixth'));
 commandStack.addCommand(new CommandCancel('seventh'));
 commandStack.addCommand(new CommandCancel('eight'));
 commandStack.addCommand(new CommandCancel('ninth'));
-console.log(commandStack.stack.length)
+commandStack.addCommand(new CommandCancel('tenth'));
+commandStack.addCommand(new CommandCancel('eleventh'));
