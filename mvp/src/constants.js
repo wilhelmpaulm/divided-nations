@@ -22,5 +22,15 @@ module.exports = {
     TRASH: 'TRASH',
     FAVOR: 'FAVOR',
     STOP: 'STOP'
-  }
+  },
+  COMMAND_STATUS: {
+    CREATED: 'created',
+    ADDED: 'added',
+    PAUSED: 'paused',
+    CANCELLED: 'cancelled',
+    STARTED: 'started',
+    DONE: 'done',
+    ERROR: 'error'
+  },
+  COMMAND_TIMEOUT: 1000
 };
