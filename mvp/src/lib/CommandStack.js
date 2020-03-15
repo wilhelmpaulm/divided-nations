@@ -51,9 +51,12 @@ class CommandStack {
    * stops all executions
    */
   clean() {
-    this.finished = this.stack.filter((command) =>
-      [DONE, ERROR, CANCELLED].includes(command.status)
-    );
+    this.finished = [
+      ...this.finished,
+      ...this.stack.filter((command) =>
+        [DONE, ERROR, CANCELLED].includes(command.status)
+      )
+    ];
 
     this.stack = this.stack.filter(
       (command) => ![DONE, ERROR, CANCELLED].includes(command.status)

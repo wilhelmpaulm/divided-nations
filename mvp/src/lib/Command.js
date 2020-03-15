@@ -16,6 +16,7 @@ class Command {
     this.id = uuid.v4();
     this.status = COMMAND_ADDED;
 
+    this.promise = new Promise();
     this.action = action;
     this.params = params;
     this.emitter = emitter;
